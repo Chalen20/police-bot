@@ -1,0 +1,5 @@
+# coding:utf-8
+
+TOKEN = "1698501148:AAEJGzPKHQxXhfz6Sr8b76RUfcRgp9fGl3c"
+TIMEZONE = 'Europe/Kiev'
+TIMEZONE_COMMON_NAME = 'Kiev'
