@@ -19,5 +19,11 @@ def start_message(message):
     bot.send_message(message.chat.id, "Выберите Раздел", reply_markup=catalogKBoard)
 
 
+@bot.message_handler(content_types=['text'])
+def handler(message):
+    if message.text == "Steam":
+        bot.send_message(chat_id=message.chat.id, text="StEaM)))))")
+
+
 if __name__ == "__main__":
     bot.polling()
