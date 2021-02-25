@@ -9,20 +9,33 @@ bot = telebot.TeleBot(config.TOKEN)
 @bot.message_handler(commands=["start"])
 def start_message(message):
     bot.send_message(chat_id=message.chat.id, text="Bot just started")
-    catalogKBoard = telebot.types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    Steam = telebot.types.KeyboardButton(text="Steam")
-    Origin = telebot.types.KeyboardButton(text="Origin")
-    UPlay = telebot.types.KeyboardButton(text="UPlay")
-    EpicGames = telebot.types.KeyboardButton(text="Epic Games")
-    VPN = telebot.types.KeyboardButton(text="VPN")
-    catalogKBoard.add(Steam, Origin, UPlay, EpicGames, VPN)
-    bot.send_message(message.chat.id, "Выберите Раздел", reply_markup=catalogKBoard)
+
+    # level 0
+    levelZeroBoard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
+    Start = telebot.types.KeyboardButton(text="Так")
+    levelZeroBoard.add(Start)
+    bot.send_message(message.chat.id, "Ви стали учасником ДТП?", reply_markup=levelZeroBoard)
+    bot.register_next_step_handler(message, get_answer_level_1)
 
 
-@bot.message_handler(content_types=['text'])
-def handler(message):
-    if message.text == "Steam":
-        bot.send_message(chat_id=message.chat.id, text="StEaM)))))")
+def get_answer_level_1(message):
+    if message.text == "Так":
+        levelOneBoard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
+        Yes = telebot.types.KeyboardButton(text="Так")
+        No = telebot.types.KeyboardButton(text='Ні')
+        levelOneBoard.add(Yes)
+        levelOneBoard.add(No)
+        bot.send_message(text="Чи є потерпілі?", chat_id=message.chat.id, reply_markup=levelOneBoard)
+        bot.register_next_step_handler(message, get_answer_level_2)
+    else:
+        bot.send_message(text="Так, а що ти від мене хотів?", chat_id=message.chat.id)
+
+
+def get_answer_level_2(message):
+    if message.text == "Так":
+        bot.send_message(text="Ойой", chat_id=message.chat.id)
+    else:
+        bot.send_message(text="Хух", chat_id=message.chat.id)
 
 
 if __name__ == "__main__":
